@@ -1,0 +1,43 @@
+<html>
+<head>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script>
+function login() {
+        var jsonData = {
+                "token":$("#token").val(),
+                "campus":$("#campus").val(),
+                "status":$("#status").val(),
+        };
+        $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:3000/admin/listAppointments",
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: "text",
+                success: function(msg) {
+                        $("#msg").text(msg);
+                },
+                error: function() {
+                        $("#msg").text("error");
+                }
+        });
+}
+</script>
+<style>
+input {
+        display: block;
+}
+</style>
+</head>
+<body>
+<form>
+<label>token</label>
+<input type="text" id="token">
+<label>campus</label>
+<input type="text" id="campus">
+<label>status</label>
+<input type="text" id="status">
+<input type="button" onclick="login()" value="login" />
+</form>
+<p id="msg"></p>
+</body>

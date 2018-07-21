@@ -1,0 +1,58 @@
+<html>
+<head>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script>
+function login() {
+        var jsonData = {
+                "token":$("#token").val(),
+                "name":$("#name").val(),
+                "email":$("#email").val(),
+                "campus":$("#campus").val(),
+                "deviceVersion":$("#deviceVersion").val(),
+                "systemVersion":$("#systemVersion").val(),
+                "description":$("#description").val(),
+                "file":$("#file").val()
+        };
+        $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:3000/customer/appointment",
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: "text",
+                success: function(msg) {
+                        $("#msg").text(msg);
+                },
+                error: function() {
+                        $("#msg").text("error");
+                }
+        });
+}
+</script>
+<style>
+input {
+        display:block;
+}
+</style>
+</head>
+<body>
+<form>
+<label>token</label>
+<input type="text" id="token">
+<label>name</label>
+<input type="text" id="name">
+<label>email</label>
+<input type="text" id="email">
+<label>campus</label>
+<input type="text" id="campus">
+<label>deviceVersion</label>
+<input type="text" id="deviceVersion">
+<label>systemVersion</label>
+<input type="text" id="systemVersion">
+<label>description</label>
+<input type="text" id="description">
+<label>file</label>
+<input type="text" id="file">
+<input type="button" onclick="login()" value="login" />
+</form>
+<p id="msg"></p>
+</body>

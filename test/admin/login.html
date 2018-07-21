@@ -1,0 +1,40 @@
+<html>
+<head>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script>
+function login() {
+        var jsonData = {
+                "username":$("#username").val(),
+                "password":$("#password").val()
+        };
+        $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:3000/admin/login",
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: "text",
+                success: function(msg) {
+                        $("#msg").text(msg);
+                },
+                error: function() {
+                        $("#msg").text("error");
+                }
+        });
+}
+</script>
+<style>
+input {
+        display: block;
+}
+</style>
+</head>
+<body>
+<form>
+<label>username</label>
+<input type="text" id="username">
+<label>password</label>
+<input type="text" id="password">
+<input type="button" onclick="login()" value="login" />
+</form>
+<p id="msg"></p>
+</body>

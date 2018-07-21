@@ -1,0 +1,35 @@
+{
+  "name": "js-server",
+  "version": "0.0.1",
+  "description": "js-server",
+  "main": "src/server.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/liuyang0717/js-server.git"
+  },
+  "keywords": [
+    "js-server"
+  ],
+  "author": "liuyang0717",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/liuyang0717/js-server/issues"
+  },
+  "homepage": "https://github.com/liuyang0717/js-server#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.3",
+    "express-jwt": "^5.3.1",
+    "jsonwebtoken": "^8.3.0",
+    "morgan": "^1.9.0",
+    "nodemailer": "^4.6.7"
+  }
+}

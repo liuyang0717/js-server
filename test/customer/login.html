@@ -1,0 +1,35 @@
+<html>
+<head>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script>
+function login() {
+        $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:3000/customer/login",
+                contentType: "application/json",
+                data: JSON.stringify({
+                        "phone":$("#phone").val()
+                }),
+                dataType: "text",
+                xhrFields: {
+                        withCredentials: true
+                },
+                success: function(msg) {
+                        $("#msg").text(msg);
+                },
+                error: function() {
+                        $("#msg").text("error");
+                }
+        });
+}
+</script>
+</head>
+<body>
+<form>
+<label>phone</label>
+<input type="text" id="phone">
+<br>
+<input type="button" onclick="login()" value="login" />
+</form>
+<p id="msg"></p>
+</body>
