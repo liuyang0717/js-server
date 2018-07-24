@@ -14,6 +14,9 @@ function login() {
                 contentType: "application/json",
                 data: JSON.stringify(jsonData),
                 dataType: "text",
+                xhrFields: {
+                        withCredentials: true
+                },
                 success: function(msg) {
                         $("#msg").text(msg);
                 },

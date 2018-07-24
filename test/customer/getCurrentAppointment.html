@@ -11,6 +11,9 @@ function login() {
                         "token":$("#token").val()
                 }),
                 dataType: "text",
+                xhrFields: {
+                        withCredentials: true
+                },
                 success: function(msg) {
                         $("#msg").text(msg);
                 },

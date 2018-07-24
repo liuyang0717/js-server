@@ -4,7 +4,7 @@ var expressJwt = require('express-jwt');
 var checkToken = expressJwt({
     secret: 'hello',
     getToken: function (req) {
-        return req.body.token;
+        return req.cookies.token;
     }
 }).unless({
     path: ['/customer/login']
@@ -12,9 +12,11 @@ var checkToken = expressJwt({
 
 var getToken = function getToken(req, res, next) {
     var token = jwt.sign({ foo: 'bar' }, 'hello');
-    req.body.token = token;
-    console.log(req.cookies);
-    res.cookie('token', token);
+    res.cookie('token', token, {
+        domain: '127.0.0.1',
+        path: '/',
+        maxAge: 60*1000*10
+    });
     next();
 };
 

@@ -8,8 +8,8 @@ var checkToken = auth.checkToken;
 
 exports = module.exports = customer;
 
-customer.use(getToken);
-customer.use(checkToken);
+customer.post('/login', getToken);
+customer.post(checkToken);
 
 customer.post('/login', function (req, res, next) {
     var data = {};
