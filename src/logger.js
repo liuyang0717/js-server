@@ -1,8 +1,9 @@
 var morgan = require('morgan');
 var fs = require('fs');
 
-morgan.token('paras', function(req, res){
+morgan.token('paras', function(req, res, next){
     return req.body || '-';
+    next();
 });
 
 morgan.format('itxia', ':date :method :url :status :paras');

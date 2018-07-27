@@ -7,11 +7,15 @@ var checkToken = expressJwt({
         return req.cookies.token;
     }
 }).unless({
-    path: ['/customer/login']
+    path: [
+        '/customer/login',
+        '/admin/login'
+    ]
 });
 
 var getToken = function getToken(req, res, next) {
-    var token = jwt.sign({ foo: 'bar' }, 'hello');
+    var data = req.body;
+    var token = jwt.sign(data, 'hello');
     res.cookie('token', token, {
         domain: '127.0.0.1',
         path: '/',
@@ -20,5 +24,11 @@ var getToken = function getToken(req, res, next) {
     next();
 };
 
+var decodeToken = function decodeToken(token) {
+    var tokenData = jwt.verify(token, 'hello');
+    return tokenData;
+}
+
 exports.checkToken = module.exports.checkToken = checkToken;
 exports.getToken = module.exports.getToken = getToken;
+exports.decodeToken = module.exports.decodeToken = decodeToken;
