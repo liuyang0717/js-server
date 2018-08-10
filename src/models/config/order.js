@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 
-var sequelize = require('./database');
+var sequelize = require('../database');
 
 var order = sequelize.define('order', {
     id: {
@@ -8,7 +8,7 @@ var order = sequelize.define('order', {
         autoIncrement: true,
         primaryKey: true
     },
-    updateon: {
+    updatedon: {
         type: 'TIMESTAMP',
         allowNull: false,
         defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
@@ -66,4 +66,4 @@ var order = sequelize.define('order', {
     tableName: 'order'
 });
 
-var orders = exports = module.exports = {};
+exports = module.exports = order;

@@ -1,4 +1,4 @@
-var members = require('../../src/models/member');
+var members = require('../../src/models/members');
 
 members.findById(264, function(result) {
     console.log(result);

@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 
-var sequelize = require('./database');
+var sequelize = require('../database');
 
 var reply= sequelize.define('reply', {
     index: {
@@ -35,4 +35,4 @@ var reply= sequelize.define('reply', {
     tableName: 'reply'
 });
 
-var replies = exports = module.exports = {};
+exports = module.exports = reply;

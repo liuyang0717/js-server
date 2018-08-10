@@ -5,18 +5,27 @@ var auth = require('../auth');
 var admin = express.Router();
 var getToken = auth.getToken;
 var checkToken = auth.checkToken;
+var authCheck = auth.authCheck;
 
 exports = module.exports = admin;
 
-admin.post('/login', getToken);
-admin.post(checkToken);
+admin.post(/[a-z,A-Z]/g, checkToken);
+admin.post(/[a-z,A-Z]/g, authCheck);
 
 admin.post('/login', function (req, res, next) {
-    var resData = {};
-    resData['success'] = true;
-    res.json(resData);
-    res.end();
-    next();
+  var authData = {};
+  authData['username'] = req.body.username;
+  authData['password'] = req.body.password;
+  authData['auth'] = 'admin';
+  req.auth = authData;
+
+  getToken(req, res, next);
+
+  var resData = {};
+  resData['success'] = true;
+  res.json(resData);
+  res.end();
+  next();
 });
 
 admin.post('/logout', function (req, res, next) {

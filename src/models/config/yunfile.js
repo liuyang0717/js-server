@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 
-var sequelize = require('./database');
+var sequelize = require('../database');
 
 var yunfile = sequelize.define('yunfile', {
     id: {
@@ -30,4 +30,4 @@ var yunfile = sequelize.define('yunfile', {
     tableName: 'yunfile'
 });
 
-var yunfiles = exports = module.exports = {};
+exports = module.exports = yunfile;

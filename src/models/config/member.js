@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 
-var sequelize = require('./database');
+var sequelize = require('../database');
 
 var member = sequelize.define('member', {
     id: {
@@ -40,11 +40,4 @@ var member = sequelize.define('member', {
     tableName: 'members'
 });
 
-var members = exports = module.exports = {};
-
-members.findById = function(id, callback) {
-    member.findById(id)
-    .then(member => {
-        callback(member.dataValues);
-    });
-};
+exports = module.exports = member;
