@@ -6,21 +6,18 @@ members.createOne = function(target, callback) {
   member.create(target)
     .then(result => {
       callback(result);
-    });
+    })
+    .catch();
 };
 
 members.findOne = function(target, callback) {
   member.findOne({
-      where: target,
-      include: [{
-        model: reply
-      }, {
-        model: yunfile
-      }]
+      where: target
     })
     .then(result => {
       callback(result);
-    });
+    })
+    .catch();
 };
 
 members.findAll = function(target, callback) {
@@ -30,4 +27,5 @@ members.findAll = function(target, callback) {
     .then(result => {
       callback(result)
     })
+    .catch();
 };

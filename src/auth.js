@@ -15,17 +15,20 @@ var checkToken = expressJwt({
 });
 
 var authCheck = function authCheck(req, res, next) {
-  console.log(req.auth);
+  var authData = req.auth;
+  console.log(authData);
   next()
 }
 
 var getToken = function getToken(req, res, next) {
   var data = req.auth;
-  var token = jwt.sign(data, 'hello');
+  var token = jwt.sign(data, 'hello', {
+    expiresIn: '10min'
+  });
   res.cookie('token', token, {
     domain: '127.0.0.1',
     path: '/',
-    maxAge: 60 * 1000 * 10
+    maxAge: 60 * 1000 * 10    // 10 minutes
   });
   next();
 };
