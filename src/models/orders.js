@@ -19,7 +19,7 @@ yunfile.belongsTo(order, {
 
 var orders = exports = module.exports = {};
 
-orders.createOne = function(target, callback) {
+orders.create = function(target, callback) {
   order.create(target)
     .then(result => {
       callback(result);
@@ -42,7 +42,36 @@ orders.findOne = function(target, callback) {
 
 orders.findAll = function(target, callback) {
   order.findAll({
-      where: target
+      where: target,
+      include: [{
+        model: reply
+      }, {
+        model: yunfile
+      }]
+    })
+    .then(result => {
+      callback(result)
+    })
+};
+
+orders.update = function(value, target, callback) {
+  order.update(value, {
+    where: target
+  })
+  .then(result => {
+    callback(result)
+  })
+  .catch();
+};
+
+orders.destroy = function(target, callback) {
+  order.destroy({
+      where: target,
+      include: [{
+        model: reply
+      }, {
+        model: yunfile
+      }]
     })
     .then(result => {
       callback(result)

@@ -3,6 +3,7 @@ var express = require('express');
 var auth = require('../auth');
 var members = require('../models/members');
 var orders = require('../models/orders');
+var replies = require('../models/replies');
 
 var admin = express.Router();
 var getToken = auth.getToken;
@@ -28,6 +29,7 @@ admin.post('/login', function(req, res, next) {
   // generate resData
   var resData = {};
 
+  // operate database
   members.findOne(target, function(result) {
     if (authData['password'] !== result.password) {
       throw new Error('password incorrect');
@@ -51,6 +53,7 @@ admin.post('/login', function(req, res, next) {
 });
 
 admin.post('/logout', function(req, res, next) {
+  // clear cookie
   res.clearCookie('token');
   var resData = {};
   resData['success'] = true;
@@ -60,57 +63,196 @@ admin.post('/logout', function(req, res, next) {
 });
 
 admin.post('/modifyPassword', function(req, res, next) {
+  // generate authData
+  var authData = req.auth;
+
+  // generate reqData
+  var reqData = req.body;
+
+  // generate value and target
+  var value = {
+    password: reqData.newPassword
+  };
+  var target = {
+    account: authData.username
+  };
+
+  // generate resData
   var resData = {};
-  resData['success'] = true;
-  res.json(resData);
-  res.end();
-  next();
+
+  // operate database
+  if (authData.password !== reqData.oldPassword) {
+    throw new Error('password incorrect');
+  } else {
+    members.update(value, target, function(result) {
+      console.log(result);
+
+      resData['success'] = true;
+      res.json(resData);
+      res.end();
+      next();
+    });
+  }
 });
 
 admin.post('/listAppointments', function(req, res, next) {
+  // generate reqData
+  var reqData = req.body;
+
+  // generate target
+  var target = {
+    location: reqData.campus,
+    status: reqData.status
+  };
+
+  // generate resData
   var resData = {};
-  resData['success'] = true;
-  res.json(resData);
-  res.end();
-  next();
+
+  orders.findAll(target, function(result) {
+    // generate baseData
+    baseData = JSON.parse(JSON.stringify(result));
+
+    res.json(baseData);
+    res.end();
+    next();
+  });
 });
 
 admin.post('/acceptAppointment', function(req, res, next) {
+  // generate authData
+  var authData = req.auth;
+
+  // generate reqData
+  var reqData = req.body;
+
+  // generate target
+  var target = {
+    account: authData.username
+  };
+
+  // generate resData
   var resData = {};
-  resData['success'] = true;
-  res.json(resData);
-  res.end();
-  next();
+
+  // operate database
+  members.findOne(target, function(result) {
+    // generate baseData
+    baseData = JSON.parse(JSON.stringify(result));
+
+    // generate value and target
+    var value = {
+      handler: baseData.id
+    };
+    var target = {
+      id: reqData.appointmentId
+    };
+
+    // operate database
+    orders.update(value, target, function(result) {
+      resData['success'] = true;
+      res.json(resData);
+      res.end();
+      next();
+    })
+  });
 });
 
 admin.post('/reply', function(req, res, next) {
+  // generate authData
+  var authData = req.auth;
+
+  // generate reqData
+  var reqData = req.body;
+
+  // generate target
+  var target = {
+    account: authData.username
+  };
+
+  // generate resData
   var resData = {};
-  resData['success'] = true;
-  res.json(resData);
-  res.end();
-  next();
+
+  // operate database
+  members.findOne(target, function(result) {
+    // generate baseData
+    baseData = JSON.parse(JSON.stringify(result));
+
+    // generate value and target
+    var target = {
+      replybool: 1,
+      orderid: reqData.appointmentId,
+      itxiaid: baseData.id,
+      content: reqData.content
+    };
+
+    // operate database
+    replies.create(target, function(result) {
+      resData['success'] = true;
+      res.json(resData);
+      res.end();
+      next();
+    })
+  });
 });
 
 admin.post('/createMember', function(req, res, next) {
+  // generate reqData
+  var reqData = req.body;
+
+  // generate target
+  var target = {
+    name: reqData.name,
+    account: reqData.username,
+    password: reqData.password,
+    location: reqData.location,
+    admin: reqData.admin
+  };
+
+  // generate resData
   var resData = {};
-  resData['success'] = true;
-  res.json(resData);
-  res.end();
-  next();
+
+  // operate database
+  members.create(target, function(result) {
+    resData['success'] = true;
+    res.json(resData);
+    res.end();
+    next();
+  })
 });
 
 admin.post('/listAllMembers', function(req, res, next) {
+  // generate resData
   var resData = {};
-  resData['success'] = true;
-  res.json(resData);
-  res.end();
-  next();
+
+  // operate database
+  members.findAll(null, function(result) {
+    // generate baseData
+    var baseData = JSON.parse(JSON.stringify(result));
+
+    res.json(baseData);
+    res.end();
+    next();
+  })
 });
 
 admin.post('/modifyMemberPassword', function(req, res, next) {
+  // generate reqData
+  var reqData = req.body;
+
+  // generate value and target
+  var value = {
+    password: reqData.newPassword
+  };
+  var target = {
+    id: reqData.memberId
+  };
+  console.log(target);
+  // generate resData
   var resData = {};
-  resData['success'] = true;
-  res.json(resData);
-  res.end();
-  next();
+
+  members.update(value, target, function(result) {
+    resData['success'] = true;
+    res.json(resData);
+    res.end();
+    next();
+  })
 });

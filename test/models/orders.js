@@ -1,5 +1,7 @@
 var orders = require('../../src/models/orders');
 
-orders.findAll({}, function(result) {
+var target = {};
+
+orders.createOne(target, function(result) {
     console.log(result);
 });

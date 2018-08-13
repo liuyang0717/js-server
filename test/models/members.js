@@ -1,5 +1,7 @@
 var members = require('../../src/models/members');
 
-members.findById(264, function(result) {
+var target = {};
+
+members.findAll(null, function(result) {
     console.log(result);
 });
