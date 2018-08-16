@@ -22,18 +22,39 @@ var authCheck = function authCheck(req, res, next) {
   // generate authData
   var authData = req.auth;
 
-  // operate file
-  readAuthJson(function(error, result) {
-    if (error) {
-      next(error);
-    } else {
-      var target = JSON.parse(result);
-      console.log(target);
-      console.log('url: ' + req.originalUrl);
-      next();
-    }
-  })
+  // generate url
+  var originalUrl = req.originalUrl;
+  var loginUrl = [
+    '/customer/login',
+    '/admin/login'
+  ];
 
+  if (loginUrl.includes(originalUrl)) {
+    next();
+  } else {
+    // operate file
+    readAuthJson(function(error, result) {
+      if (error) {
+        next(error);
+      } else {
+        var auth = authData.auth;
+        var allTarget = JSON.parse(result);
+        for (var targetIndex in allTarget) {
+          var target = allTarget[targetIndex];
+          if (target.auth !== auth) {
+            continue;
+          } else {
+            if (target.url.includes(originalUrl)) {
+              next();
+            } else {
+              var authError =  new Error('No Auth');
+              next(authError);
+            }
+          }
+        }
+      }
+    });
+  }
 }
 
 var getToken = function getToken(req, res, next) {
