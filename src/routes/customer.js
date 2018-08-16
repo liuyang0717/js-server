@@ -56,7 +56,7 @@ customer.post('/appointment', function(req, res, next) {
 
   // operate database
   orders.create(target, function(error, result) {
-    if (error !== null) {
+    if (error) {
       next(error);
     } else {
       resData['success'] = true;
@@ -81,7 +81,7 @@ customer.post('/deleteAppointment', function(req, res, next) {
 
   // operate database
   orders.destroy(target, function(error, result) {
-    if (error !== null) {
+    if (error) {
       next(error);
     } else {
       // generate baseData
@@ -121,7 +121,7 @@ customer.post('/getCurrentAppointment', function(req, res, next) {
 
   // operate database
   orders.findOne(target, function(error, result) {
-    if (error !== null) {
+    if (error) {
       next(error);
     } else {
       // generate baseData
@@ -148,7 +148,7 @@ customer.post('/getAppointments', function(req, res, next) {
 
   // operate database
   orders.findAll(target, function(error, result) {
-    if (error !== null) {
+    if (error) {
       next(error);
     } else {
       // generate baseData

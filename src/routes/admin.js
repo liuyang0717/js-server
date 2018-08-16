@@ -31,7 +31,7 @@ admin.post('/login', function(req, res, next) {
 
   // operate database
   members.findOne(target, function(error, result) {
-    if (error !== null) {
+    if (error) {
       next(error);
     } else {
       if (authData['password'] !== result.password) {
@@ -89,7 +89,7 @@ admin.post('/modifyPassword', function(req, res, next) {
     throw new Error('password incorrect');
   } else {
     members.update(value, target, function(error, result) {
-      if (error !== null) {
+      if (error) {
         next(error);
       } else {
         console.log(result);
@@ -117,7 +117,7 @@ admin.post('/listAppointments', function(req, res, next) {
   var resData = {};
 
   orders.findAll(target, function(error, result) {
-    if (error !== null) {
+    if (error) {
       next(error);
     } else {
       // generate baseData
@@ -147,7 +147,7 @@ admin.post('/acceptAppointment', function(req, res, next) {
 
   // operate database
   members.findOne(target, function(error, result) {
-    if (error !== null) {
+    if (error) {
       next(error);
     } else {
       // generate baseData
@@ -163,7 +163,7 @@ admin.post('/acceptAppointment', function(req, res, next) {
 
       // operate database
       orders.update(value, target, function(error, result) {
-        if (error !== null) {
+        if (error) {
           next(error);
         } else {
           resData['success'] = true;
@@ -193,7 +193,7 @@ admin.post('/reply', function(req, res, next) {
 
   // operate database
   members.findOne(target, function(error, result) {
-    if (error !== null) {
+    if (error) {
       next(error);
     } else {
       // generate baseData
@@ -209,7 +209,7 @@ admin.post('/reply', function(req, res, next) {
 
       // operate database
       replies.create(target, function(error, result) {
-        if (error !== null) {
+        if (error) {
           next(error);
         } else {
           resData['success'] = true;
@@ -240,7 +240,7 @@ admin.post('/createMember', function(req, res, next) {
 
   // operate database
   members.create(target, function(error, result) {
-    if (error !== null) {
+    if (error) {
       next(error);
     } else {
       resData['success'] = true;
@@ -257,7 +257,7 @@ admin.post('/listAllMembers', function(req, res, next) {
 
   // operate database
   members.findAll(null, function(error, result) {
-    if (error !== null) {
+    if (error) {
       next(error);
     } else {
       // generate baseData
@@ -286,7 +286,7 @@ admin.post('/modifyMemberPassword', function(req, res, next) {
   var resData = {};
 
   members.update(value, target, function(error, result) {
-    if (error !== null) {
+    if (error) {
       next(error);
     } else {
       resData['success'] = true;

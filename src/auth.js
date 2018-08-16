@@ -1,6 +1,10 @@
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 
+var file = require('./file');
+
+var readAuthJson = file.readAuthJson;
+
 var checkToken = expressJwt({
   secret: 'hello',
   requestProperty: 'auth',
@@ -15,9 +19,21 @@ var checkToken = expressJwt({
 });
 
 var authCheck = function authCheck(req, res, next) {
+  // generate authData
   var authData = req.auth;
-  console.log(authData);
-  next()
+
+  // operate file
+  readAuthJson(function(error, result) {
+    if (error) {
+      next(error);
+    } else {
+      var target = JSON.parse(result);
+      console.log(target);
+      console.log('url: ' + req.originalUrl);
+      next();
+    }
+  })
+
 }
 
 var getToken = function getToken(req, res, next) {
