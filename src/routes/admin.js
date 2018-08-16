@@ -30,25 +30,29 @@ admin.post('/login', function(req, res, next) {
   var resData = {};
 
   // operate database
-  members.findOne(target, function(result) {
-    if (authData['password'] !== result.password) {
-      throw new Error('password incorrect');
+  members.findOne(target, function(error, result) {
+    if (error !== null) {
+      next(error);
     } else {
-      if (result.admin) {
-        authData['auth'] = 'admin';
+      if (authData['password'] !== result.password) {
+        throw new Error('password incorrect');
       } else {
-        authData['auth'] = 'knight';
+        if (result.admin) {
+          authData['auth'] = 'admin';
+        } else {
+          authData['auth'] = 'knight';
+        }
       }
+
+      req.auth = authData;
+
+      getToken(req, res, next);
+
+      resData['success'] = true;
+      res.json(resData);
+      res.end();
+      next();
     }
-
-    req.auth = authData;
-
-    getToken(req, res, next);
-
-    resData['success'] = true;
-    res.json(resData);
-    res.end();
-    next();
   });
 });
 
@@ -84,13 +88,17 @@ admin.post('/modifyPassword', function(req, res, next) {
   if (authData.password !== reqData.oldPassword) {
     throw new Error('password incorrect');
   } else {
-    members.update(value, target, function(result) {
-      console.log(result);
+    members.update(value, target, function(error, result) {
+      if (error !== null) {
+        next(error);
+      } else {
+        console.log(result);
 
-      resData['success'] = true;
-      res.json(resData);
-      res.end();
-      next();
+        resData['success'] = true;
+        res.json(resData);
+        res.end();
+        next();
+      }
     });
   }
 });
@@ -108,13 +116,17 @@ admin.post('/listAppointments', function(req, res, next) {
   // generate resData
   var resData = {};
 
-  orders.findAll(target, function(result) {
-    // generate baseData
-    baseData = JSON.parse(JSON.stringify(result));
+  orders.findAll(target, function(error, result) {
+    if (error !== null) {
+      next(error);
+    } else {
+      // generate baseData
+      baseData = JSON.parse(JSON.stringify(result));
 
-    res.json(baseData);
-    res.end();
-    next();
+      res.json(baseData);
+      res.end();
+      next();
+    }
   });
 });
 
@@ -134,25 +146,33 @@ admin.post('/acceptAppointment', function(req, res, next) {
   var resData = {};
 
   // operate database
-  members.findOne(target, function(result) {
-    // generate baseData
-    baseData = JSON.parse(JSON.stringify(result));
+  members.findOne(target, function(error, result) {
+    if (error !== null) {
+      next(error);
+    } else {
+      // generate baseData
+      baseData = JSON.parse(JSON.stringify(result));
 
-    // generate value and target
-    var value = {
-      handler: baseData.id
-    };
-    var target = {
-      id: reqData.appointmentId
-    };
+      // generate value and target
+      var value = {
+        handler: baseData.id
+      };
+      var target = {
+        id: reqData.appointmentId
+      };
 
-    // operate database
-    orders.update(value, target, function(result) {
-      resData['success'] = true;
-      res.json(resData);
-      res.end();
-      next();
-    })
+      // operate database
+      orders.update(value, target, function(error, result) {
+        if (error !== null) {
+          next(error);
+        } else {
+          resData['success'] = true;
+          res.json(resData);
+          res.end();
+          next();
+        }
+      });
+    }
   });
 });
 
@@ -172,25 +192,33 @@ admin.post('/reply', function(req, res, next) {
   var resData = {};
 
   // operate database
-  members.findOne(target, function(result) {
-    // generate baseData
-    baseData = JSON.parse(JSON.stringify(result));
+  members.findOne(target, function(error, result) {
+    if (error !== null) {
+      next(error);
+    } else {
+      // generate baseData
+      baseData = JSON.parse(JSON.stringify(result));
 
-    // generate value and target
-    var target = {
-      replybool: 1,
-      orderid: reqData.appointmentId,
-      itxiaid: baseData.id,
-      content: reqData.content
-    };
+      // generate value and target
+      var target = {
+        replybool: 1,
+        orderid: reqData.appointmentId,
+        itxiaid: baseData.id,
+        content: reqData.content
+      };
 
-    // operate database
-    replies.create(target, function(result) {
-      resData['success'] = true;
-      res.json(resData);
-      res.end();
-      next();
-    })
+      // operate database
+      replies.create(target, function(error, result) {
+        if (error !== null) {
+          next(error);
+        } else {
+          resData['success'] = true;
+          res.json(resData);
+          res.end();
+          next();
+        }
+      });
+    }
   });
 });
 
@@ -211,11 +239,15 @@ admin.post('/createMember', function(req, res, next) {
   var resData = {};
 
   // operate database
-  members.create(target, function(result) {
-    resData['success'] = true;
-    res.json(resData);
-    res.end();
-    next();
+  members.create(target, function(error, result) {
+    if (error !== null) {
+      next(error);
+    } else {
+      resData['success'] = true;
+      res.json(resData);
+      res.end();
+      next();
+    }
   })
 });
 
@@ -224,13 +256,17 @@ admin.post('/listAllMembers', function(req, res, next) {
   var resData = {};
 
   // operate database
-  members.findAll(null, function(result) {
-    // generate baseData
-    var baseData = JSON.parse(JSON.stringify(result));
+  members.findAll(null, function(error, result) {
+    if (error !== null) {
+      next(error);
+    } else {
+      // generate baseData
+      var baseData = JSON.parse(JSON.stringify(result));
 
-    res.json(baseData);
-    res.end();
-    next();
+      res.json(baseData);
+      res.end();
+      next();
+    }
   })
 });
 
@@ -245,14 +281,18 @@ admin.post('/modifyMemberPassword', function(req, res, next) {
   var target = {
     id: reqData.memberId
   };
-  console.log(target);
+
   // generate resData
   var resData = {};
 
-  members.update(value, target, function(result) {
-    resData['success'] = true;
-    res.json(resData);
-    res.end();
-    next();
-  })
+  members.update(value, target, function(error, result) {
+    if (error !== null) {
+      next(error);
+    } else {
+      resData['success'] = true;
+      res.json(resData);
+      res.end();
+      next();
+    }
+  });
 });

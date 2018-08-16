@@ -2,7 +2,8 @@ var morgan = require('morgan');
 var fs = require('fs');
 
 morgan.token('paras', function(req, res, next) {
-  return req.body || '-';
+  var paras = JSON.stringify(req.body);
+  return paras || '-';
   next();
 });
 

@@ -5,9 +5,11 @@ var replies = exports = module.exports = {};
 replies.create = function(target, callback) {
   reply.create(target)
     .then(result => {
-      callback(result);
+      callback(null, result);
     })
-    .catch();
+    .catch(error => {
+      callback(error);
+    });
 };
 
 replies.findOne = function(target, callback) {
@@ -15,9 +17,11 @@ replies.findOne = function(target, callback) {
       where: target
     })
     .then(result => {
-      callback(result);
+      callback(null, result);
     })
-    .catch();
+    .catch(error => {
+      callback(error);
+    });
 };
 
 replies.findAll = function(target, callback) {
@@ -25,9 +29,11 @@ replies.findAll = function(target, callback) {
       where: target
     })
     .then(result => {
-      callback(result)
+      callback(null, result)
     })
-    .catch();
+    .catch(error => {
+      callback(error);
+    });
 };
 
 replies.update = function(value, target, callback) {
@@ -35,7 +41,9 @@ replies.update = function(value, target, callback) {
     where: target
   })
   .then(result => {
-    callback(result)
+    callback(null, result)
   })
-  .catch();
+  .catch(error => {
+    callback(error);
+  });
 };

@@ -55,11 +55,15 @@ customer.post('/appointment', function(req, res, next) {
   var resData = {};
 
   // operate database
-  orders.create(target, function(result) {
-    resData['success'] = true;
-    res.json(resData);
-    res.end();
-    next();
+  orders.create(target, function(error, result) {
+    if (error !== null) {
+      next(error);
+    } else {
+      resData['success'] = true;
+      res.json(resData);
+      res.end();
+      next();
+    }
   });
 });
 
@@ -76,13 +80,17 @@ customer.post('/deleteAppointment', function(req, res, next) {
   var resData = {};
 
   // operate database
-  orders.destroy(target, function(result) {
-    // generate baseData
-    var baseData = JSON.parse(JSON.stringify(result));
+  orders.destroy(target, function(error, result) {
+    if (error !== null) {
+      next(error);
+    } else {
+      // generate baseData
+      var baseData = JSON.parse(JSON.stringify(result));
 
-    res.json(baseData);
-    res.end();
-    next();
+      res.json(baseData);
+      res.end();
+      next();
+    }
   });
 });
 
@@ -112,13 +120,17 @@ customer.post('/getCurrentAppointment', function(req, res, next) {
   var resData = {};
 
   // operate database
-  orders.findOne(target, function(result) {
-    // generate baseData
-    var baseData = JSON.parse(JSON.stringify(result));
+  orders.findOne(target, function(error, result) {
+    if (error !== null) {
+      next(error);
+    } else {
+      // generate baseData
+      var baseData = JSON.parse(JSON.stringify(result));
 
-    res.json(baseData);
-    res.end();
-    next();
+      res.json(baseData);
+      res.end();
+      next();
+    }
   });
 });
 
@@ -135,12 +147,16 @@ customer.post('/getAppointments', function(req, res, next) {
   var resData = {};
 
   // operate database
-  orders.findAll(target, function(result) {
-    // generate baseData
-    var baseData = JSON.parse(JSON.stringify(result));
+  orders.findAll(target, function(error, result) {
+    if (error !== null) {
+      next(error);
+    } else {
+      // generate baseData
+      var baseData = JSON.parse(JSON.stringify(result));
 
-    res.json(baseData);
-    res.end();
-    next();
+      res.json(baseData);
+      res.end();
+      next();
+    }
   });
 });

@@ -4,8 +4,10 @@ var cookieParser = require('cookie-parser')
 
 var router = require('./routes/router');
 var logger = require('./logger');
+var error = require('./error');
 
 var app = express();
+var appError = error.appError;
 var port = 3000;
 
 var allowCrossDomain = function(req, res, next) {
@@ -24,5 +26,6 @@ app.use(logger);
 app.use(cookieParser());
 
 app.use('/', router);
+app.use(appError);
 
 app.listen(port);

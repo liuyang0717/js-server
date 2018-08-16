@@ -22,7 +22,10 @@ var orders = exports = module.exports = {};
 orders.create = function(target, callback) {
   order.create(target)
     .then(result => {
-      callback(result);
+      callback(null, result);
+    })
+    .catch(error => {
+      callback(error);
     });
 };
 
@@ -36,7 +39,10 @@ orders.findOne = function(target, callback) {
       }]
     })
     .then(result => {
-      callback(result);
+      callback(null, result);
+    })
+    .catch(error => {
+      callback(error);
     });
 };
 
@@ -50,18 +56,23 @@ orders.findAll = function(target, callback) {
       }]
     })
     .then(result => {
-      callback(result)
+      callback(null, result)
     })
+    .catch(error => {
+      callback(error);
+    });
 };
 
 orders.update = function(value, target, callback) {
   order.update(value, {
-    where: target
-  })
-  .then(result => {
-    callback(result)
-  })
-  .catch();
+      where: target
+    })
+    .then(result => {
+      callback(null, result)
+    })
+    .catch(error => {
+      callback(error);
+    });
 };
 
 orders.destroy = function(target, callback) {
@@ -74,6 +85,9 @@ orders.destroy = function(target, callback) {
       }]
     })
     .then(result => {
-      callback(result)
+      callback(null, result)
+    })
+    .catch(error => {
+      callback(error);
     })
 };

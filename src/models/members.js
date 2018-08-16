@@ -5,9 +5,11 @@ var members = exports = module.exports = {};
 members.create = function(target, callback) {
   member.create(target)
     .then(result => {
-      callback(result);
+      callback(null, result);
     })
-    .catch();
+    .catch(error => {
+      callback(error);
+    });
 };
 
 members.findOne = function(target, callback) {
@@ -15,9 +17,11 @@ members.findOne = function(target, callback) {
       where: target
     })
     .then(result => {
-      callback(result);
+      callback(null, result);
     })
-    .catch();
+    .catch(error => {
+      callback(error);
+    });
 };
 
 members.findAll = function(target, callback) {
@@ -25,9 +29,11 @@ members.findAll = function(target, callback) {
       where: target
     })
     .then(result => {
-      callback(result)
+      callback(null, result)
     })
-    .catch();
+    .catch(error => {
+      callback(error);
+    });
 };
 
 members.update = function(value, target, callback) {
@@ -35,7 +41,9 @@ members.update = function(value, target, callback) {
     where: target
   })
   .then(result => {
-    callback(result)
+    callback(null, result)
   })
-  .catch();
+  .catch(error => {
+    callback(error);
+  });
 };
