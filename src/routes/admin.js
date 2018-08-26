@@ -156,7 +156,8 @@ admin.post('/acceptAppointment', function(req, res, next) {
 
       // generate value and target
       var value = {
-        handler: baseData.id
+        handler: baseData.id,
+        status: 1
       };
       var target = {
         id: reqData.appointmentId
