@@ -1,7 +1,7 @@
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 
-var file = require('./file');
+var file = require('../file');
 
 var readAuthJson = file.readAuthJson;
 
@@ -37,11 +37,7 @@ var authCheck = function authCheck(req, res, next) {
       if (error) {
         next(error);
       } else {
-        try {
-          var auth = authData.auth;  // token expire, authData not have auth's key
-        } catch (error) {
-          next(error);
-        }
+        var auth = authData.auth;
         var allTarget = JSON.parse(result);
         for (var targetIndex in allTarget) {
           var target = allTarget[targetIndex];

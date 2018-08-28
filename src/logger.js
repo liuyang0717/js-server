@@ -1,5 +1,13 @@
 var morgan = require('morgan');
-var fs = require('fs');
+var file = require('./file');
+
+var morganLogStream = file.morganLogStream;
+
+morgan.token('auths', function(req, res, next) {
+  var auths = JSON.stringify(req.auth);
+  return auths || '-';
+  next();
+})
 
 morgan.token('paras', function(req, res, next) {
   var paras = JSON.stringify(req.body);
@@ -7,8 +15,10 @@ morgan.token('paras', function(req, res, next) {
   next();
 });
 
-morgan.format('itxia', ':date :method :url :status :paras');
+morgan.format('itxia', ':date :method :url :status :auths :paras');
 
-var logger = morgan('itxia');
+var logger = morgan('itxia', {
+  stream: morganLogStream
+});
 
 exports = module.exports = logger;

@@ -1,6 +1,6 @@
 var express = require('express');
 
-var auth = require('../auth');
+var auth = require('../auths/auth');
 var orders = require('../models/orders');
 
 var customer = express.Router();

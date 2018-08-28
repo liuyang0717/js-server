@@ -1,6 +1,6 @@
 var express = require('express');
 
-var auth = require('../auth');
+var auth = require('../auths/auth');
 var members = require('../models/members');
 var orders = require('../models/orders');
 var replies = require('../models/replies');
@@ -122,7 +122,7 @@ admin.post('/listAppointments', function(req, res, next) {
       next(error);
     } else {
       // generate baseData
-      baseData = JSON.parse(JSON.stringify(result));
+      var baseData = JSON.parse(JSON.stringify(result));
 
       res.json(baseData);
       res.end();
@@ -152,7 +152,7 @@ admin.post('/acceptAppointment', function(req, res, next) {
       next(error);
     } else {
       // generate baseData
-      baseData = JSON.parse(JSON.stringify(result));
+      var baseData = JSON.parse(JSON.stringify(result));
 
       // generate value and target
       var value = {
@@ -199,7 +199,7 @@ admin.post('/reply', function(req, res, next) {
       next(error);
     } else {
       // generate baseData
-      baseData = JSON.parse(JSON.stringify(result));
+      var baseData = JSON.parse(JSON.stringify(result));
 
       // generate value and target
       var target = {
