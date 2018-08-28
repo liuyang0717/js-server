@@ -23,4 +23,12 @@ file.sequelizeLogStream = fs.createWriteStream(
   {
     flags: 'a'
   }
-)
+);
+
+file.errorLogStream = fs.createWriteStream(
+  path.resolve(__dirname, '../logs/error.log'),
+  'utf-8',
+  {
+    flags: 'a'
+  }
+);

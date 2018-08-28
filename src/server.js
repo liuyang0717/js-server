@@ -7,7 +7,8 @@ var logger = require('./logger');
 var error = require('./error');
 
 var app = express();
-var appError = error.appError;
+var logErrors = error.logErrors;
+var errorHandler = error.errorHandler;
 var port = 3000;
 
 var allowCrossDomain = function(req, res, next) {
@@ -22,10 +23,11 @@ var allowCrossDomain = function(req, res, next) {
 app.use(allowCrossDomain);
 // app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(logger);
 app.use(cookieParser());
 
 app.use('/', router);
-app.use(appError);
+app.use(logger);
+app.use(logErrors);
+app.use(errorHandler);
 
 app.listen(port);

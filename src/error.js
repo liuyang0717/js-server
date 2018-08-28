@@ -1,6 +1,15 @@
+var file = require('./file');
+
+var errorLogStream = file.errorLogStream;
+
 var error = exports = module.exports = {};
 
-error.appError = function(err, req, res, next) {
+error.logErrors = function(err, req, res, next) {
+  errorLogStream.write(err.message+'\n');
+  next(err);
+}
+
+error.errorHandler = function(err, req, res, next) {
   // generate resData
   var resData = {};
   resData['success'] = false;

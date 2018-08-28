@@ -36,7 +36,7 @@ admin.post('/login', function(req, res, next) {
     } else {
       if (authData['password'] !== result.password) {
         var passwordError = new Error('password incorrect');
-        next(passwordError);
+        return next(passwordError);
       } else {
         if (result.admin) {
           authData['auth'] = 'admin';
