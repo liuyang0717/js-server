@@ -23,6 +23,8 @@ error.errorHandler = function(err, req, res, next) {
         } else {
           res.status(httpErrorIndex);
         }
+        res.end();
+        next();
       }
     }
   })

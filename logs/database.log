@@ -1,1 +1,2 @@
 Executing (default): SELECT `id`, `name`, `account`, `password`, `location`, `admin`, `email` FROM `members` AS `member` WHERE `member`.`account` = 'caigen' LIMIT 1;
+Executing (default): SELECT `id`, `name`, `account`, `password`, `location`, `admin`, `email` FROM `members` AS `member` WHERE `member`.`account` = 'caigen' LIMIT 1;
