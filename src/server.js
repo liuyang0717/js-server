@@ -1,10 +1,10 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
 
 var router = require('./routes/router');
 var logger = require('./logger');
-var error = require('./error');
+var error = require('./errors/error');
 
 var app = express();
 var logErrors = error.logErrors;

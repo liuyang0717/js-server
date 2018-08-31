@@ -9,6 +9,12 @@ file.readAuthJson = function(callback) {
   fs.readFile(filePath, 'utf-8', callback);
 };
 
+file.readErrorJson = function(callback) {
+  //file filePath
+  var filePath = path.resolve(__dirname, './errors/error.json');
+  fs.readFile(filePath, 'utf-8', callback);
+}
+
 file.morganLogStream = fs.createWriteStream(
   path.resolve(__dirname, '../logs/server.log'),
   'utf-8',

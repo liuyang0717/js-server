@@ -1,4 +1,5 @@
 var express = require('express');
+var createError = require('http-errors');
 
 var auth = require('../auths/auth');
 var members = require('../models/members');
@@ -35,7 +36,7 @@ admin.post('/login', function(req, res, next) {
       next(error);
     } else {
       if (authData['password'] !== result.password) {
-        var passwordError = new Error('password incorrect');
+        var passwordError = new createError(404, 'password incorrect');
         return next(passwordError);
       } else {
         if (result.admin) {
@@ -87,7 +88,8 @@ admin.post('/modifyPassword', function(req, res, next) {
 
   // operate database
   if (authData.password !== reqData.oldPassword) {
-    throw new Error('password incorrect');
+    var passwordError = new createError(401, 'password incorrect');
+    return next(passwordError);
   } else {
     members.update(value, target, function(error, result) {
       if (error) {
